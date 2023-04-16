@@ -24,3 +24,14 @@ export async function createTicket(req: AuthenticatedRequest, res: Response, nex
     next(err);
   }
 }
+
+export async function getTickets(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { userId } = req;
+
+  try {
+    const tickets = await ticketsService.getTickets(userId);
+    return res.status(httpStatus.OK).send(tickets);
+  } catch (err) {
+    next(err);
+  }
+}
