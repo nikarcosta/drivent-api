@@ -22,7 +22,7 @@ async function getHotels(userId: number) {
   return hotels;
 }
 
-async function getHotelRooms(userId: number, hotelId: number) {
+async function getHotelRooms(hotelId: number, userId: number) {
   await verifyData(userId);
 
   const hotelRooms = await hotelsRepository.getHotelRooms(hotelId);
