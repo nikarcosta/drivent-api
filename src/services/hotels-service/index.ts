@@ -29,7 +29,7 @@ async function getHotelRooms(userId: number, hotelId: number) {
 
   if (!ticket) throw notFoundError();
 
-  if (ticket.status !== 'PAID' || !ticket.TicketType.includesHotel || ticket.TicketType.isRemote)
+  if (ticket.status === 'RESERVED' || !ticket.TicketType.includesHotel || ticket.TicketType.isRemote)
     throw paymentRequiredError();
 
   const hotelRooms = hotelsRepository.getHotelRooms(hotelId);
