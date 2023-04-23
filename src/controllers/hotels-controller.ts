@@ -19,7 +19,7 @@ export async function getHotelRooms(req: AuthenticatedRequest, res: Response, ne
   const hotelIdStr = req.params.hotelId as string;
   if (!hotelIdStr) throw badRequestError();
 
-  const hotelId = parseInt(hotelIdStr, 10);
+  const hotelId = Number(hotelIdStr);
 
   const { userId } = req;
 

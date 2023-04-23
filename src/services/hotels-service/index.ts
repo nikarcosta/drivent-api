@@ -25,10 +25,10 @@ async function getHotels(userId: number) {
 async function getHotelRooms(userId: number, hotelId: number) {
   await verifyData(userId);
 
-  const hotelWithRooms = await hotelsRepository.getHotelRooms(hotelId);
-  if (!hotelWithRooms) throw notFoundError();
+  const hotelRooms = await hotelsRepository.getHotelRooms(hotelId);
+  if (!hotelRooms) throw notFoundError();
 
-  return hotelWithRooms;
+  return hotelRooms;
 }
 
 const hotelsService = {
