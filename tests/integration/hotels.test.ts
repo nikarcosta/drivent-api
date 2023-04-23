@@ -50,6 +50,15 @@ describe('GET /hotels', () => {
   });
 
   describe('when token is valid', () => {
+    it('should respond with status 404 when user doesnt have an enrollment yet', async () => {
+      const user = await createUser();
+      const token = await generateValidToken();
+
+      const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toEqual(httpStatus.NOT_FOUND);
+    });
+
     it('should respond with status 404 when user doesnt have a ticket yet', async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
@@ -96,6 +105,30 @@ describe('GET /hotels', () => {
       const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
 
       expect(response.status).toEqual(httpStatus.PAYMENT_REQUIRED);
+    });
+
+    it('should respond with status 200 and with hotel data', async () => {
+      const user = await createUser();
+      const token = await generateValidToken(user);
+      const enrollment = await createEnrollmentWithAddress(user);
+      const ticketType = await createTicketHotel(false, true);
+
+      await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
+
+      const hotel = await createHotel();
+
+      const response = await server.get('/hotels').set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(httpStatus.OK);
+      expect(response.body).toEqual([
+        {
+          id: hotel.id,
+          name: hotel.name,
+          image: hotel.image,
+          createdAt: hotel.createdAt.toISOString(),
+          updatedAt: hotel.updatedAt.toISOString(),
+        },
+      ]);
     });
   });
 });
