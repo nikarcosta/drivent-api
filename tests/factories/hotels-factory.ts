@@ -11,11 +11,20 @@ export async function createHotel() {
 }
 
 export async function createRoomWithHotelId(hotelId: number) {
-  return prisma.room.create({
+  await prisma.room.create({
     data: {
-      name: '1020',
-      capacity: 3,
+      name: faker.name.findName(),
+      capacity: faker.datatype.number({ min: 1, max: 6, precision: 1 }),
       hotelId: hotelId,
+    },
+  });
+
+  return prisma.hotel.findUnique({
+    where: {
+      id: hotelId,
+    },
+    include: {
+      Rooms: true,
     },
   });
 }
