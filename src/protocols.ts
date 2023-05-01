@@ -51,3 +51,7 @@ export type PaymentData = {
   cardIssuer: string;
   cardLastDigits: string;
 };
+
+export type RoomIdNumber = {
+  roomId: number;
+};

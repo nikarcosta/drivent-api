@@ -16,3 +16,17 @@ export async function getBooking(req: AuthenticatedRequest, res: Response, next:
     next(err);
   }
 }
+
+export async function createBooking(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const { userId } = req;
+  const { roomId } = req.body;
+
+  try {
+    const booking = await bookingsService.createBooking(userId, roomId);
+    return res.status(httpStatus.OK).send({
+      bookingId: booking.id,
+    });
+  } catch (err) {
+    next(err);
+  }
+}

@@ -50,6 +50,12 @@ export function handleApplicationErrors(
     });
   }
 
+  if (err.name === 'forbiddenError') {
+    return res.status(httpStatus.FORBIDDEN).send({
+      message: err.message,
+    });
+  }
+
   /* eslint-disable-next-line no-console */
   return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
     error: 'InternalServerError',
