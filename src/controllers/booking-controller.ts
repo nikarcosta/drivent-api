@@ -1,8 +1,7 @@
 import { NextFunction, Response } from 'express';
 import httpStatus from 'http-status';
 import { AuthenticatedRequest } from '@/middlewares';
-import bookingsService from '@/services/bookings-service';
-import { badRequestError } from '@/errors';
+import bookingsService from '@/services/booking-service';
 
 export async function getBooking(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const { userId } = req;
