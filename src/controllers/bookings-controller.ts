@@ -33,17 +33,14 @@ export async function createBooking(req: AuthenticatedRequest, res: Response, ne
 }
 
 export async function updateBooking(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-  const bookingIdStr = req.params.bookingId as string;
-  if (!bookingIdStr) throw badRequestError();
-
-  const bookingId = Number(bookingIdStr);
+  const { bookingId } = req.params;
 
   const { userId } = req;
 
   const { roomId } = req.body;
 
   try {
-    const updatedBooking = await bookingsService.updateBooking(userId, bookingId, roomId);
+    const updatedBooking = await bookingsService.updateBooking(userId, Number(bookingId), roomId);
     return res.status(httpStatus.OK).send({
       bookingId: updatedBooking.id,
     });
